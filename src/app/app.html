@@ -1,0 +1,801 @@
+<ng-container *ngIf="isPublicView; else authenticatedPortal">
+  <div class="public-shell">
+    <header class="public-header">
+      <a class="brand public-brand" href="#inicio-publico" (click)="$event.preventDefault(); navigate('publico')">
+        <span class="brand-mark">+</span>
+        <span>
+          <strong>cita<span class="brand-light">salud</span></strong>
+          <small>ORIENTACIÓN Y CITAS</small>
+        </span>
+      </a>
+      <nav class="public-nav" aria-label="Navegación pública">
+        <a *ngIf="view === 'publico'" href="#sobre">Sobre EsSalud</a>
+        <a *ngIf="view === 'publico'" href="#servicios">Servicios</a>
+        <button *ngIf="view === 'servicios'" class="public-nav-link" (click)="navigate('publico')">Inicio</button>
+        <button class="button button-outline" (click)="isAuthenticated ? navigate(role === 'PACIENTE' ? 'inicio' : role === 'MEDICO' ? 'agenda' : 'admin') : navigate(view === 'acceso' ? 'publico' : 'acceso')">
+          {{ isAuthenticated ? 'Volver a mi portal' : view === 'acceso' ? 'Volver al inicio' : 'Iniciar sesión' }}
+        </button>
+      </nav>
+    </header>
+
+    <main class="public-content">
+      <div class="notice" *ngIf="notice" [class.success]="noticeType === 'success'" [class.error]="noticeType === 'error'" [class.warning]="noticeType === 'warning'" role="status">
+        <span>{{ noticeType === 'success' ? '✓' : noticeType === 'error' ? '!' : 'i' }}</span>
+        {{ notice }}
+        <button (click)="clearNotice()" aria-label="Cerrar mensaje">×</button>
+      </div>
+
+      <section *ngIf="view === 'publico'" id="inicio-publico" class="public-hero">
+        <div class="public-hero-copy">
+          <p class="eyebrow">INFORMACIÓN Y ORIENTACIÓN EN SALUD</p>
+          <h1>Tu bienestar,<br><span>más cerca.</span></h1>
+          <p>Conoce los canales de atención de EsSalud y organiza tus citas desde un espacio personal seguro.</p>
+          <div class="public-hero-actions">
+            <button class="button button-primary" (click)="startBooking()">Reservar una cita <span>→</span></button>
+            <a class="button button-quiet" href="#sobre">Conocer EsSalud</a>
+          </div>
+          <div class="public-trust"><span>✓</span> Acceso personal con DNI · La reserva requiere iniciar sesión</div>
+        </div>
+        <div class="public-hero-art" role="img" aria-label="Ilustración de una profesional de salud en una clínica">
+          <svg viewBox="0 0 520 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="clinic-bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#DDF4EB"/><stop offset="1" stop-color="#C8E8E8"/></linearGradient>
+              <linearGradient id="coat" x1="0" x2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#E9F4F4"/></linearGradient>
+            </defs>
+            <circle cx="266" cy="205" r="190" fill="url(#clinic-bg)"/>
+            <circle cx="415" cy="82" r="31" fill="#F4C86A" opacity=".8"/>
+            <rect x="57" y="286" width="399" height="90" rx="18" fill="#B7DCD1"/>
+            <rect x="82" y="122" width="95" height="126" rx="12" fill="#fff" opacity=".83"/>
+            <path d="M104 153h51M104 174h51M104 195h35" stroke="#88BFA9" stroke-width="8" stroke-linecap="round"/>
+            <path d="M226 347c4-76 21-119 80-119s75 43 79 119" fill="url(#coat)"/>
+            <path d="M264 235c5 17 20 29 42 29s37-12 42-29" fill="#fff"/>
+            <path d="M300 180c-28 0-48-22-48-51s19-52 48-52 48 23 48 52-20 51-48 51Z" fill="#D99D76"/>
+            <path d="M252 127c-6-40 16-66 49-66 35 0 51 24 48 59-10-4-16-14-18-25-14 15-38 23-79 22Z" fill="#294A50"/>
+            <path d="M277 183v26c0 12 10 22 23 22s23-10 23-22v-26" fill="#D99D76"/>
+            <path d="m285 276 15 18 16-18M300 294v53" stroke="#5B9B87" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M236 255 198 284l28 39 35-33M365 255l38 29-28 39-35-33" fill="#fff" stroke="#D8E9E4" stroke-width="5"/>
+            <rect x="376" y="186" width="55" height="55" rx="15" fill="#fff"/>
+            <path d="M403 198v31M387 214h32" stroke="#32A880" stroke-width="8" stroke-linecap="round"/>
+          </svg>
+          <span class="art-caption"><b>Atención centrada en las personas</b><small>Información oficial y acceso sencillo</small></span>
+        </div>
+      </section>
+
+      <section *ngIf="view === 'publico'" id="sobre" class="public-about">
+        <div class="public-section-intro">
+          <p class="eyebrow">SOBRE ESSALUD</p>
+          <h2>Protección y seguridad social en salud</h2>
+          <p>El Seguro Social de Salud brinda prestaciones de salud y también beneficios económicos y sociales a las personas aseguradas y sus derechohabientes. Consulta siempre los canales oficiales para conocer requisitos y servicios vigentes.</p>
+          <a href="#sobre">Conoce la información institucional</a>
+        </div>
+        <div class="public-about-cards">
+          <article><span>01</span><h3>Atención en salud</h3><p>Orientación sobre servicios y acceso a la atención para personas aseguradas.</p></article>
+          <article><span>02</span><h3>Beneficios y prestaciones</h3><p>Información sobre prestaciones económicas, sociales y modalidades de seguro.</p></article>
+          <article><span>03</span><h3>Información confiable</h3><p>Guías y resúmenes para ubicar la orientación institucional que necesitas.</p></article>
+        </div>
+      </section>
+
+      <section *ngIf="view === 'publico'" id="servicios" class="public-services">
+        <div>
+          <p class="eyebrow">SERVICIOS Y ORIENTACIÓN</p>
+          <h2>Consulta la información aquí mismo</h2>
+          <p>Revisa las categorías y guías de orientación sin salir de esta página.</p>
+        </div>
+        <div class="public-service-links">
+          <button (click)="navigate('servicios')">Ver las 13 categorías y trámites <span>→</span></button>
+          <button (click)="openServiceByTitle('Atención médica')">Atención médica y citas <span>→</span></button>
+          <button (click)="openServiceByTitle('Telesalud')">Telesalud <span>→</span></button>
+        </div>
+      </section>
+
+      <section *ngIf="view === 'servicios'" class="services-page public-services-page">
+        <ng-container *ngIf="selectedService as service; else servicesDirectory">
+          <button class="service-back" (click)="showServiceList()">← Volver a todas las categorías</button>
+          <div class="service-detail-hero">
+            <span class="service-group">{{ service.group }}</span>
+            <h1>{{ service.title }}</h1>
+            <p>{{ service.description }}</p>
+          </div>
+          <div class="service-detail-layout">
+            <article class="service-detail-main">
+              <p class="eyebrow">GUÍA INFORMATIVA</p>
+              <h2>Información de {{ service.title }}</h2>
+              <p class="service-detail-intro">{{ service.description }} El siguiente resumen te ayuda a identificar qué información buscar y qué aspectos confirmar antes de realizar una gestión.</p>
+              <div class="service-topic-list">
+                <article *ngFor="let detail of service.details">
+                  <span class="service-topic-icon">✓</span>
+                  <div><h3>{{ detail.title }}</h3><p>{{ detail.description }}</p></div>
+                </article>
+              </div>
+            </article>
+            <aside class="service-detail-aside">
+              <span class="official-note-icon">i</span>
+              <h2>Antes de hacer un trámite</h2>
+              <ul>
+                <li>Verifica los requisitos, fechas y documentos vigentes para tu caso.</li>
+                <li>La información de esta página es orientativa; no envía solicitudes ni realiza trámites.</li>
+                <li>No compartas datos personales o de salud en este portal informativo.</li>
+              </ul>
+              <span class="service-source-label">Fuente de referencia: Seguro Social de Salud · Gob.pe</span>
+            </aside>
+          </div>
+        </ng-container>
+
+        <ng-template #servicesDirectory>
+          <div class="services-hero">
+            <div class="services-hero-copy">
+              <p class="eyebrow">ORIENTACIÓN PARA ASEGURADOS Y FAMILIAS</p>
+              <h1>Servicios e información de EsSalud</h1>
+              <p class="subtitle">Explora las categorías, revisa sus guías dentro de esta página y encuentra información útil para cada tema.</p>
+            </div>
+            <div class="services-hero-count"><b>{{ institutionalServices.length }}</b><span>categorías<br>con guía propia</span></div>
+          </div>
+
+          <div class="official-service-note">
+            <span class="official-note-icon">i</span>
+            <p>Las guías se muestran aquí mismo y están redactadas como resúmenes informativos. No son trámites oficiales ni reemplazan la confirmación de requisitos en EsSalud.</p>
+          </div>
+          <div class="services-toolbar">
+            <label class="services-search">
+              <span aria-hidden="true">⌕</span>
+              <input type="search" [(ngModel)]="serviceSearch" placeholder="Buscar categoría o tema" aria-label="Buscar servicios y temas de EsSalud">
+            </label>
+            <span class="results-count">{{ filteredInstitutionalServices.length }} de {{ institutionalServices.length }} categorías</span>
+          </div>
+          <div class="service-filters" aria-label="Filtrar categorías">
+            <button *ngFor="let group of serviceGroups"
+              [class.selected]="selectedServiceGroup === group"
+              [attr.aria-pressed]="selectedServiceGroup === group"
+              (click)="selectServiceGroup(group)">
+              {{ group }}
+            </button>
+          </div>
+          <div class="service-cards">
+            <article class="service-card" *ngFor="let item of filteredInstitutionalServices">
+              <div class="service-card-top">
+                <span class="service-symbol">{{ item.title.slice(0, 1) }}</span>
+                <span class="service-group">{{ item.group }}</span>
+              </div>
+              <h2>{{ item.title }}</h2>
+              <p>{{ item.description }}</p>
+              <button class="service-card-action" (click)="openService(item)">Leer información aquí <span>→</span></button>
+            </article>
+            <div class="services-empty" *ngIf="filteredInstitutionalServices.length === 0">
+              <b>No encontramos categorías</b>
+              <span>Prueba otra palabra o selecciona “Todas”.</span>
+              <button class="button button-quiet" (click)="serviceSearch = ''; selectServiceGroup('Todas')">Limpiar filtros</button>
+            </div>
+          </div>
+          <footer class="services-source">Resúmenes informativos basados en las categorías publicadas por el Seguro Social de Salud en Gob.pe.</footer>
+        </ng-template>
+      </section>
+
+      <section *ngIf="view === 'preview'" class="portal-preview">
+        <div class="preview-heading">
+          <div>
+            <p class="eyebrow">VISTA PREVIA DE INTERFAZ</p>
+            <h1>Tu espacio personal</h1>
+            <p class="subtitle">Así se organiza el portal para una persona asegurada.</p>
+          </div>
+          <button class="button button-outline" (click)="navigate('acceso')">Ir al acceso por DNI</button>
+        </div>
+
+        <div class="preview-notice">
+          <span>i</span>
+          <p><b>Solo vista visual.</b> No hay una sesión activa ni datos de citas cargados. Las acciones privadas se habilitarán cuando conectes el backend.</p>
+        </div>
+
+        <div class="preview-layout">
+          <aside class="preview-menu">
+            <span class="preview-menu-title">ESPACIO PERSONAL</span>
+            <span class="preview-menu-item active">⌂ &nbsp; Resumen</span>
+            <span class="preview-menu-item">＋ &nbsp; Reservar una cita</span>
+            <span class="preview-menu-item">▤ &nbsp; Mis citas</span>
+          </aside>
+
+          <div class="preview-dashboard">
+            <div class="preview-welcome">
+              <div>
+                <span>RESUMEN DE ATENCIÓN</span>
+                <h2>Hola</h2>
+                <p>Cuando inicies sesión, aquí aparecerá tu información.</p>
+              </div>
+              <button class="button button-primary" disabled>Reservar una cita <span>→</span></button>
+            </div>
+
+            <div class="preview-metrics">
+              <article><span>PRÓXIMAS CITAS</span><b>Se carga al iniciar sesión</b></article>
+              <article><span>ESTABLECIMIENTO</span><b>Según tu perfil</b></article>
+              <article><span>DISPONIBILIDAD</span><b>Según la agenda</b></article>
+            </div>
+
+            <article class="preview-appointments">
+              <div><h2>Tu próxima cita</h2><span>AGENDA PERSONAL</span></div>
+              <p>Tus citas aparecerán aquí cuando la API esté conectada.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section *ngIf="view === 'acceso'" class="public-access">
+        <article class="public-access-card">
+          <div class="access-emblem">+</div>
+          <p class="eyebrow">{{ accessMode === 'login' ? 'ESPACIO PERSONAL' : 'NUEVA CUENTA' }}</p>
+          <h1>{{ accessMode === 'login' ? 'Inicia sesión' : 'Crea tu cuenta' }}</h1>
+          <p class="subtitle">{{ accessMode === 'login' ? 'Ingresa con tu DNI para continuar con la gestión de citas.' : 'Regístrate con tus datos para habilitar tu acceso personal.' }}</p>
+
+          <form *ngIf="accessMode === 'login'" (ngSubmit)="login()" #loginForm="ngForm">
+            <label for="login-dni">DNI</label>
+            <input id="login-dni" name="loginDni" type="text" inputmode="numeric" autocomplete="username" maxlength="8" pattern="[0-9]{8}" required [(ngModel)]="loginDni" placeholder="8 dígitos">
+            <label for="login-password">Contraseña</label>
+            <input id="login-password" name="loginPassword" type="password" autocomplete="current-password" minlength="8" required [(ngModel)]="loginPassword" placeholder="Tu contraseña">
+            <button class="button button-primary access-submit" type="submit" [disabled]="busy || loginForm.invalid">
+              {{ busy ? 'Conectando…' : 'Iniciar sesión' }} <span>→</span>
+            </button>
+          </form>
+
+          <form *ngIf="accessMode === 'register'" (ngSubmit)="register()" #registerForm="ngForm">
+            <label for="register-names">Nombres y apellidos</label>
+            <input id="register-names" name="registerNames" type="text" autocomplete="name" required [(ngModel)]="registerNames" placeholder="Como aparecen en tu documento">
+            <label for="register-dni">DNI</label>
+            <input id="register-dni" name="registerDni" type="text" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[0-9]{8}" required [(ngModel)]="registerDni" placeholder="8 dígitos">
+            <label for="register-email">Correo electrónico</label>
+            <input id="register-email" name="registerEmail" type="email" autocomplete="email" required [(ngModel)]="registerEmail" placeholder="nombre@correo.com">
+            <label for="register-password">Contraseña</label>
+            <input id="register-password" name="registerPassword" type="password" autocomplete="new-password" minlength="8" required [(ngModel)]="registerPassword" placeholder="Mínimo 8 caracteres">
+            <label for="confirm-password">Confirma tu contraseña</label>
+            <input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required [(ngModel)]="confirmPassword" placeholder="Repite tu contraseña">
+            <button class="button button-primary access-submit" type="submit" [disabled]="busy || registerForm.invalid">
+              {{ busy ? 'Creando cuenta…' : 'Crear cuenta' }} <span>→</span>
+            </button>
+          </form>
+
+          <p class="access-switch">
+            {{ accessMode === 'login' ? '¿Aún no tienes cuenta?' : '¿Ya tienes una cuenta?' }}
+            <button type="button" (click)="accessMode = accessMode === 'login' ? 'register' : 'login'; clearNotice()">
+              {{ accessMode === 'login' ? 'Regístrate' : 'Inicia sesión' }}
+            </button>
+          </p>
+          <p class="preview-switch">¿Solo quieres revisar cómo va quedando? <button type="button" (click)="openPreview()">Ver vista previa</button></p>
+          <div class="access-disclaimer"><b>Privacidad:</b> el DNI y las credenciales se envían a la API del proyecto. Hasta verificar su seguridad y configurar HTTPS, usa únicamente datos de prueba. Esta plataforma es independiente y no oficial de EsSalud.</div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="public-footer">
+      <a class="brand public-brand" href="#inicio-publico" (click)="$event.preventDefault(); navigate('publico')">
+        <span class="brand-mark">+</span><span><strong>cita<span class="brand-light">salud</span></strong><small>PROYECTO INDEPENDIENTE</small></span>
+      </a>
+      <p>Información resumida de fuentes públicas de EsSalud. Esta plataforma es independiente y no está afiliada a la institución.</p>
+    </footer>
+  </div>
+</ng-container>
+
+<ng-template #authenticatedPortal>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="#inicio" (click)="$event.preventDefault(); navigate(role === 'PACIENTE' ? 'inicio' : role === 'MEDICO' ? 'agenda' : 'admin')">
+      <span class="brand-mark">+</span>
+      <span>
+        <strong>cita<span class="brand-light">salud</span></strong>
+        <small>PORTAL DE ATENCIÓN</small>
+      </span>
+    </a>
+
+    <div class="nav-label">MENÚ PRINCIPAL</div>
+    <nav aria-label="Navegación principal">
+      <button [class.active]="view === 'inicio' || view === 'agenda' || view === 'admin'" (click)="navigate(role === 'PACIENTE' ? 'inicio' : role === 'MEDICO' ? 'agenda' : 'admin')"><span class="nav-icon">⌂</span>Inicio</button>
+      <button *ngIf="role === 'PACIENTE'" [class.active]="view === 'reservar'" (click)="navigate('reservar')"><span class="nav-icon">＋</span>Reservar una cita</button>
+      <button *ngIf="role === 'PACIENTE'" [class.active]="view === 'citas'" (click)="navigate('citas')"><span class="nav-icon">▤</span>Mis citas <span class="nav-count">{{ upcomingCount }}</span></button>
+      <button *ngIf="role === 'MEDICO'" [class.active]="view === 'agenda'" (click)="navigate('agenda')"><span class="nav-icon">▦</span>Mi agenda</button>
+      <button *ngIf="role === 'ADMIN'" [class.active]="view === 'admin'" (click)="navigate('admin')"><span class="nav-icon">⚙</span>Administración</button>
+      <button *ngIf="role === 'ADMIN'" [class.active]="view === 'integracion'" (click)="navigate('integracion')"><span class="nav-icon">⌘</span>Integración backend</button>
+      <button [class.active]="view === 'servicios'" (click)="navigate('servicios')"><span class="nav-icon">▦</span>Servicios y orientación</button>
+      <button [class.active]="view === 'institucional'" (click)="navigate('institucional')"><span class="nav-icon">ⓘ</span>Sobre EsSalud</button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="help-card">
+        <span class="help-icon">i</span>
+        <div>
+          <b>¿Necesitas ayuda?</b>
+          <p>La autenticación y las citas requieren los servicios del backend del proyecto.</p>
+        </div>
+      </div>
+      <div class="sidebar-foot">© 2026 CitaSalud · Proyecto académico</div>
+    </div>
+  </aside>
+
+  <main class="main-area">
+    <header class="topbar">
+      <div class="breadcrumb">
+        Portal <span>/</span>
+        <b>{{ view === 'acceso' ? 'Acceso' : view === 'inicio' ? 'Inicio' : view === 'reservar' ? 'Reservar una cita' : view === 'citas' ? 'Mis citas' : view === 'agenda' ? 'Mi agenda' : view === 'integracion' ? 'Integración backend' : view === 'institucional' ? 'Sobre EsSalud' : view === 'servicios' ? 'Servicios y orientación' : 'Administración' }}</b>
+      </div>
+
+      <div class="top-actions">
+        <div class="profile">
+          <div class="avatar">{{ userName.slice(0,1).toUpperCase() }}</div>
+          <div class="profile-name">
+            <b>{{ userName }}</b>
+            <small>{{ role === 'PACIENTE' ? 'Asegurado' : role === 'MEDICO' ? 'Personal médico' : 'Administrador' }}</small>
+          </div>
+          <button class="chevron" aria-label="Cerrar sesión" (click)="logout()">Salir</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="notice" *ngIf="notice" [class.success]="noticeType === 'success'" [class.error]="noticeType === 'error'" [class.warning]="noticeType === 'warning'" role="status">
+        <span>{{ noticeType === 'success' ? '✓' : noticeType === 'error' ? '!' : '⚠' }}</span>
+        {{ notice }}
+        <button (click)="clearNotice()" aria-label="Cerrar mensaje">×</button>
+      </div>
+
+      <section *ngIf="view === 'inicio' && role === 'PACIENTE'" class="page">
+        <div class="welcome-row">
+          <div>
+            <p class="eyebrow">TU ESPACIO PERSONAL</p>
+            <h1>Hola, {{ userName }} <span class="wave">✳</span></h1>
+            <p class="subtitle">Consulta tu información y gestiona tus atenciones desde un solo lugar.</p>
+          </div>
+          <button class="button button-primary" (click)="startBooking()"><span>＋</span> Reservar una cita <span class="button-arrow">→</span></button>
+        </div>
+
+        <div class="section-title">
+          <div>
+            <h2>Tu resumen</h2>
+            <p>Información del asegurado y su agenda</p>
+          </div>
+          <button class="link-button" (click)="navigate('citas')">Ver mis citas <span>→</span></button>
+        </div>
+
+        <div class="summary-grid">
+          <article class="summary-card" *ngFor="let item of patientMetrics">
+            <div class="card-top">
+              <span class="metric-icon" [ngClass]="item.tone">▤</span>
+              <span class="card-kicker">{{ item.label }}</span>
+            </div>
+            <div class="metric">{{ item.value }}</div>
+            <div class="muted-line">{{ item.meta }}</div>
+          </article>
+        </div>
+
+        <div class="section-title next-title">
+          <div>
+            <h2>Tu próxima cita</h2>
+            <p>Revisa la atención programada</p>
+          </div>
+          <button class="link-button" (click)="navigate('citas')">Ver todas <span>→</span></button>
+        </div>
+
+        <article class="appointment-feature" *ngIf="nextAppointment as a; else noAppointments">
+          <div class="date-block">
+            <span>{{ a.date | date:'MMM':'':'es' }}</span>
+            <b>{{ a.date | date:'dd' }}</b>
+            <small>2026</small>
+          </div>
+          <div class="appointment-main">
+            <span class="status-pill">{{ a.status }}</span>
+            <h3>{{ a.specialty }}</h3>
+            <p>{{ a.doctor }} <span>·</span> {{ a.time }}</p>
+            <div class="place-line">⌖ &nbsp;{{ a.place }}</div>
+          </div>
+          <button class="round-arrow" aria-label="Ver citas" (click)="navigate('citas')">→</button>
+        </article>
+
+        <ng-template #noAppointments>
+          <div class="empty-state">No tienes citas activas. <button (click)="startBooking()">Busca un horario disponible</button></div>
+        </ng-template>
+
+      </section>
+
+      <section *ngIf="view === 'reservar' && role === 'PACIENTE'" class="page booking-page">
+        <p class="eyebrow">AGENDA MÉDICA</p>
+        <h1>Reserva tu cita</h1>
+        <p class="subtitle">Selecciona una atención y un horario publicado por el establecimiento que te corresponde.</p>
+
+        <div class="stepper">
+          <div class="step-item" [class.current]="step === 1" [class.done]="step > 1"><span>1</span><b>Atención</b></div>
+          <i [class.passed]="step > 1"></i>
+          <div class="step-item" [class.current]="step === 2" [class.done]="step > 2"><span>2</span><b>Horario</b></div>
+          <i [class.passed]="step > 2"></i>
+          <div class="step-item" [class.current]="step >= 3" [class.done]="step === 4"><span>3</span><b>Confirmación</b></div>
+        </div>
+
+        <div class="booking-layout" *ngIf="step < 4">
+          <article class="form-card" *ngIf="step === 1">
+            <div class="form-heading">
+              <span class="number-badge">01</span>
+              <div>
+                <h2>¿Qué atención necesitas?</h2>
+                <p>Selecciona un servicio habilitado para reserva directa.</p>
+              </div>
+            </div>
+
+            <label for="specialty">Especialidad <span>*</span></label>
+            <select id="specialty" [(ngModel)]="specialty" (ngModelChange)="onSpecialtyChange($event)">
+              <option value="">Selecciona una especialidad</option>
+              <option *ngFor="let s of specialties" [value]="s.id">{{ s.nombre }}</option>
+            </select>
+
+            <label for="doctor">Profesional de salud <span>*</span></label>
+            <select id="doctor" [(ngModel)]="doctor" (ngModelChange)="onDoctorChange($event)" [disabled]="!specialty || doctorLoading">
+              <option value="">{{ doctorLoading ? 'Cargando profesionales…' : 'Selecciona un profesional' }}</option>
+              <option *ngFor="let d of doctors" [value]="d.id">{{ d.nombre }}</option>
+            </select>
+
+            <div class="inline-info">
+              <b>Catálogo de atenciones</b>
+              <span *ngIf="specialties.length">Solo se mostrarán servicios habilitados para reserva directa.</span>
+              <span *ngIf="!specialties.length && catalogLoading">Cargando el catálogo de atenciones…</span>
+              <span *ngIf="!specialties.length && !catalogLoading">El catálogo aparecerá cuando el backend publique servicios de reserva.</span>
+            </div>
+
+            <div class="form-footer">
+              <span><small>*</small> Campos obligatorios</span>
+              <button class="button button-primary" (click)="nextStep()">Continuar <span>→</span></button>
+            </div>
+          </article>
+
+          <article class="form-card" *ngIf="step === 2">
+            <div class="form-heading">
+              <span class="number-badge">02</span>
+              <div>
+                <h2>Elige fecha y horario</h2>
+                <p>Solo se muestran turnos vigentes publicados por el establecimiento.</p>
+              </div>
+            </div>
+
+            <label for="date">Fecha de atención</label>
+            <input id="date" type="date" [(ngModel)]="date" [min]="minBookingDate" (ngModelChange)="loadSlots()" [disabled]="!doctor || doctorLoading">
+
+            <div class="slot-heading">
+              <b>Horarios disponibles</b>
+              <span>{{ filteredSlots.length }} turnos</span>
+            </div>
+
+            <div class="slots-grid">
+              <button *ngFor="let slot of filteredSlots" class="slot" [class.chosen]="selectedSlot?.id === slot.id" (click)="selectSlot(slot)">
+                <b>{{ slot.time }}</b>
+                <small>{{ slot.date | date:'EEE, d MMM':'':'es' }}</small>
+                <span>{{ slot.doctor }}</span>
+              </button>
+              <p class="empty-inline" *ngIf="filteredSlots.length === 0">{{ slotsLoading ? 'Cargando horarios disponibles…' : 'No hay turnos publicados para los filtros seleccionados. Intenta más tarde o consulta los canales oficiales.' }}</p>
+            </div>
+
+            <div class="form-footer">
+              <button class="button button-quiet" (click)="previousStep()">← Volver</button>
+              <button class="button button-primary" (click)="nextStep()">Revisar reserva <span>→</span></button>
+            </div>
+          </article>
+
+          <article class="form-card" *ngIf="step === 3">
+            <div class="form-heading">
+              <span class="number-badge">03</span>
+              <div>
+                <h2>Revisa los datos de tu cita</h2>
+                <p>Confirma que la información sea correcta antes de continuar.</p>
+              </div>
+            </div>
+
+            <div class="review-card" *ngIf="selectedSlot">
+              <div><small>ESPECIALIDAD</small><b>{{ selectedSlot.specialty }}</b></div>
+              <div><small>PROFESIONAL</small><b>{{ selectedSlot.doctor }}</b></div>
+              <div><small>FECHA Y HORA</small><b>{{ selectedSlot.date | date:'EEEE d MMMM':'':'es' }} · {{ selectedSlot.time }}</b></div>
+              <div><small>ESTABLECIMIENTO</small><b>Según tu adscripción</b></div>
+            </div>
+
+            <div class="inline-info">
+              <b>Validación del servidor</b>
+              <span>La cita solo se confirma cuando el backend valida tu cobertura, adscripción y disponibilidad.</span>
+            </div>
+
+            <div class="form-footer">
+              <button class="button button-quiet" (click)="previousStep()">← Cambiar horario</button>
+              <button class="button button-primary" [disabled]="busy" (click)="confirmBooking()">{{ busy ? 'Confirmando…' : 'Confirmar cita' }} <span>✓</span></button>
+            </div>
+          </article>
+
+          <aside class="booking-aside">
+            <h3>Estado de validación</h3>
+            <ul>
+              <li><span>✓</span> Verifica que la fecha sea conveniente.</li>
+              <li><span>✓</span> Tu sede asignada no puede cambiarse desde aquí.</li>
+              <li><span>✓</span> La reserva está sujeta a disponibilidad del servidor.</li>
+            </ul>
+
+            <div class="coverage-box">
+              <span>⌑</span>
+              <div>
+                <b>Validaciones protegidas</b>
+                <p>El servidor determina la cobertura, el establecimiento y los cupos disponibles.</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <article *ngIf="step === 4" class="confirmation-card">
+          <div class="check-circle">✓</div>
+          <p class="eyebrow">SOLICITUD CONFIRMADA</p>
+          <h2>El servidor confirmó tu cita</h2>
+          <p>Consulta los detalles y el estado en la sección “Mis citas”.</p>
+          <div class="confirmation-actions">
+            <button class="button button-quiet" (click)="navigate('inicio')">Volver al inicio</button>
+            <button class="button button-primary" (click)="navigate('citas')">Ver mis citas →</button>
+          </div>
+        </article>
+      </section>
+
+      <section *ngIf="view === 'citas' && role === 'PACIENTE'" class="page">
+        <p class="eyebrow">AGENDA PERSONAL</p>
+        <div class="page-heading-row">
+          <div>
+            <h1>Mis citas</h1>
+            <p class="subtitle">Consulta el estado y los detalles de tus reservas.</p>
+          </div>
+          <button class="button button-primary" (click)="startBooking()">＋ Reservar una cita</button>
+        </div>
+
+        <div class="data-card">
+          <div class="table-head">
+            <b>{{ filteredAppointments.length }} citas en tu historial</b>
+            <span>Información proporcionada por el backend</span>
+          </div>
+
+          <div class="search-row">
+            <input type="search" [(ngModel)]="search" placeholder="Buscar por especialidad, profesional o fecha" aria-label="Buscar citas" />
+          </div>
+
+          <div class="appointment-row" *ngFor="let a of filteredAppointments">
+            <div class="date-block small-date">
+              <span>{{ a.date | date:'MMM':'':'es' }}</span>
+              <b>{{ a.date | date:'dd' }}</b>
+            </div>
+            <div class="row-main">
+              <b>{{ a.specialty }}</b>
+              <span>{{ a.doctor }} · {{ a.date | date:'EEEE d MMMM':'':'es' }} · {{ a.time }}</span>
+              <small>⌖ {{ a.place }}</small>
+            </div>
+            <span class="status-pill" [class.cancelled]="a.status === 'CANCELADA'">{{ a.status }}</span>
+            <button *ngIf="a.status === 'RESERVADA'" class="button button-outline" (click)="cancelAppointment(a)">Cancelar</button>
+          </div>
+
+          <div class="empty-state" *ngIf="filteredAppointments.length === 0">{{ appointmentsLoading ? 'Cargando tus citas…' : 'No hay citas en tu historial.' }}</div>
+        </div>
+
+        <div class="notice info-note"><span>i</span>El backend debe validar la ventana de cancelación y guardar el historial de cada cambio.</div>
+      </section>
+
+      <section *ngIf="view === 'agenda' && role === 'MEDICO'" class="page">
+        <p class="eyebrow">PANEL DEL PROFESIONAL</p>
+        <h1>Mi agenda</h1>
+        <p class="subtitle">Consulta la programación asignada a tu perfil.</p>
+
+        <div class="summary-grid doctor-grid">
+          <article class="summary-card" *ngFor="let item of doctorMetrics">
+            <div class="card-top">
+              <span class="metric-icon" [ngClass]="item.tone">▤</span>
+              <span class="card-kicker">{{ item.label }}</span>
+            </div>
+            <div class="metric">{{ item.value }}</div>
+            <div class="muted-line">{{ item.meta }}</div>
+          </article>
+        </div>
+
+        <div class="data-card">
+          <div class="table-head">
+            <b>Agenda del día</b>
+            <span>{{ filteredAppointments.length }} registros</span>
+          </div>
+
+          <div class="search-row">
+            <input type="search" [(ngModel)]="search" placeholder="Buscar por cita, médico o estado" aria-label="Buscar agenda" />
+          </div>
+
+          <div class="appointment-row" *ngFor="let a of filteredAppointments">
+            <div class="date-block small-date">
+              <span>{{ a.date | date:'MMM':'':'es' }}</span>
+              <b>{{ a.date | date:'dd' }}</b>
+            </div>
+            <div class="row-main">
+              <b>{{ a.time }} · {{ a.specialty }}</b>
+              <span>{{ a.doctor }}</span>
+              <small>Identificador {{ a.id }}</small>
+            </div>
+            <span class="status-pill">{{ a.status }}</span>
+          </div>
+
+          <div class="empty-state" *ngIf="filteredAppointments.length === 0">{{ appointmentsLoading ? 'Cargando agenda…' : 'No hay registros que coincidan con tu búsqueda.' }}</div>
+        </div>
+
+      </section>
+
+      <section *ngIf="view === 'admin' && role === 'ADMIN'" class="page">
+        <p class="eyebrow">GESTIÓN DEL SISTEMA</p>
+        <h1>Administración</h1>
+        <p class="subtitle">Resumen de catálogos y disponibilidad publicados por el backend.</p>
+
+        <div class="admin-grid">
+          <article class="summary-card" *ngFor="let item of adminMetrics">
+            <div class="card-top">
+              <span class="metric-icon" [ngClass]="item.tone">▤</span>
+              <span class="card-kicker">{{ item.label }}</span>
+            </div>
+            <div class="metric metric-text">{{ item.value }}</div>
+            <p class="muted-line">{{ item.meta }}</p>
+          </article>
+        </div>
+
+        <div class="admin-panel">
+          <article class="summary-card wide-card">
+            <div class="card-top">
+              <span class="metric-icon blue">♧</span>
+              <span class="card-kicker">CATÁLOGO</span>
+            </div>
+            <div class="metric metric-text">Catálogo institucional</div>
+            <p class="muted-line">Servicios habilitados para reserva directa, publicados por el backend.</p>
+          </article>
+
+          <article class="summary-card wide-card">
+            <div class="card-top">
+              <span class="metric-icon mint">▦</span>
+              <span class="card-kicker">DISPONIBILIDAD</span>
+            </div>
+            <div class="metric metric-text">{{ appointments.length }} citas consultadas</div>
+            <p class="muted-line">Registros disponibles según tus permisos.</p>
+          </article>
+        </div>
+
+        <div class="admin-note">
+          <b>Regla de integración</b>
+          <p>La cobertura, la sede y los cupos se validan en el servidor. La interfaz no concede permisos ni confirma una reserva por su cuenta.</p>
+        </div>
+
+      </section>
+
+      <section *ngIf="view === 'integracion' && role === 'ADMIN'" class="page integration-page">
+        <div class="page-heading-row">
+          <div>
+            <p class="eyebrow">GUÍA PARA EL EQUIPO DE DESARROLLO</p>
+            <h1>Integración del backend</h1>
+            <p class="subtitle">Contrato inicial para conectar la interfaz con la API Spring Boot.</p>
+          </div>
+          <span class="integration-status"><i></i> Contrato de servicios pendiente</span>
+        </div>
+
+        <div class="integration-banner">
+          <div class="banner-icon">⌘</div>
+          <div>
+            <b>Autenticación preparada para la API del proyecto</b>
+            <p>Confirma las rutas y DTO propuestos con el equipo backend. El catálogo, las agendas y las reservas requieren sus servicios conectados antes de operar.</p>
+          </div>
+        </div>
+
+        <div class="integration-grid">
+          <article class="integration-card">
+            <span class="integration-index">01</span>
+            <h2>Autenticación</h2>
+            <p>Emitir un JWT de corta duración y devolver el rol autorizado del usuario.</p>
+            <code>POST /api/auth/login</code>
+            <code>POST /api/auth/registro</code>
+            <code>GET /api/auth/me</code>
+          </article>
+          <article class="integration-card">
+            <span class="integration-index">02</span>
+            <h2>Catálogo y agenda</h2>
+            <p>Exponer solo servicios habilitados y turnos publicados para la sede del asegurado.</p>
+            <code>GET /api/especialidades?reservaDirecta=true</code>
+            <code>GET /api/medicos?especialidadId=...</code>
+            <code>GET /api/horarios/disponibles?medicoId=...&amp;fecha=...</code>
+          </article>
+          <article class="integration-card">
+            <span class="integration-index">03</span>
+            <h2>Reservas y cancelación</h2>
+            <p>La API debe validar cobertura, propiedad, ventana de cancelación y evitar doble reserva.</p>
+            <code>POST /api/citas</code>
+            <code>GET /api/citas/mias</code>
+            <code>PATCH /api/citas/:citaId/cancelar</code>
+          </article>
+          <article class="integration-card">
+            <span class="integration-index">04</span>
+            <h2>Vistas por rol</h2>
+            <p>Proteger los datos y acciones en servidor; ocultar botones en el cliente no reemplaza autorización.</p>
+            <code>GET /api/medico/agenda?fecha=...</code>
+            <code>GET /api/admin/citas?fecha=...</code>
+          </article>
+        </div>
+
+        <div class="contract-layout">
+          <article class="contract-card">
+            <div class="contract-heading">
+              <div><p class="eyebrow">REGLAS DE RESPUESTA</p><h2>Validaciones del servidor</h2></div>
+              <span class="contract-badge">REQUERIDO</span>
+            </div>
+            <ul class="contract-list">
+              <li><b>401</b><span>Token ausente, inválido o expirado.</span></li>
+              <li><b>403</b><span>El rol no puede acceder a ese recurso.</span></li>
+              <li><b>409</b><span>Turno ocupado o conflicto de reserva.</span></li>
+              <li><b>422</b><span>Cobertura no vigente o datos de solicitud inválidos.</span></li>
+              <li><b>503</b><span>Servicio de validación temporalmente no disponible; no crear la cita.</span></li>
+            </ul>
+          </article>
+
+          <article class="contract-card">
+            <div class="contract-heading">
+              <div><p class="eyebrow">CONFIGURACIÓN</p><h2>Conectar el servicio</h2></div>
+              <span class="contract-badge">LOCAL</span>
+            </div>
+            <ol class="setup-list">
+              <li>Permitir CORS desde <code>http://localhost:4200</code> durante desarrollo.</li>
+              <li>Configurar la URL base en <code>src/app/api.config.ts</code>.</li>
+              <li>El login utiliza DNI y contraseña; el registro requiere DNI, nombres, correo y contraseña.</li>
+              <li>Conectar catálogos, agendas, citas y permisos con <code>ApiService</code>.</li>
+              <li>Probar permisos y conflictos con cuentas y datos ficticios.</li>
+            </ol>
+          </article>
+        </div>
+
+        <div class="security-note">
+          <b>Seguridad y datos</b>
+          <p>Usar exclusivamente datos de prueba hasta verificar la protección de datos y habilitar HTTPS. Nunca solicitar claves de otros servicios. Las reglas de cobertura, adscripción, disponibilidad y permisos se deciden en el servidor.</p>
+        </div>
+      </section>
+
+      <section *ngIf="view === 'institucional'" class="page institutional-page">
+        <div class="institutional-hero">
+          <div>
+            <p class="eyebrow">INFORMACIÓN INSTITUCIONAL · FUENTE OFICIAL</p>
+            <h1>Seguro Social de Salud</h1>
+            <p class="subtitle">Resumen informativo sobre EsSalud para contextualizar esta plataforma independiente de orientación y citas.</p>
+          </div>
+          <span class="institutional-mark">ESSALUD</span>
+        </div>
+
+        <div class="institutional-disclaimer">
+          <b>Proyecto académico independiente</b>
+          <span>Esta aplicación no es un servicio oficial de EsSalud, no está afiliada ni representa a la institución.</span>
+        </div>
+
+        <div class="institutional-grid">
+          <article class="institutional-card institutional-overview">
+            <span class="institutional-label">QUIÉN ES</span>
+            <h2>Una entidad de seguridad social en salud</h2>
+            <p>EsSalud brinda protección a las personas aseguradas y a sus derechohabientes mediante prestaciones de salud y también beneficios económicos y sociales. Está adscrita al sector Trabajo y Promoción del Empleo.</p>
+          </article>
+          <article class="institutional-card">
+            <span class="institutional-label">MISIÓN · EN RESUMEN</span>
+            <h2>Proteger a las personas aseguradas</h2>
+            <p>Su misión combina prestaciones de salud, económicas y sociales con una gestión eficiente e innovadora que respalde la protección de sus asegurados.</p>
+          </article>
+          <article class="institutional-card">
+            <span class="institutional-label">VISIÓN · EN RESUMEN</span>
+            <h2>Una institución moderna y centrada en las personas</h2>
+            <p>La visión institucional pone el foco en la mejora continua y en facilitar un acceso a la seguridad social en salud con ética, oportunidad y calidad.</p>
+          </article>
+        </div>
+
+        <article class="institutional-principles">
+          <div>
+            <span class="institutional-label">PRINCIPIOS DESTACADOS</span>
+            <h2>Una atención con enfoque humano</h2>
+            <p>La información institucional destaca estos principios como guía para el servicio:</p>
+          </div>
+          <div class="principle-tags">
+            <span>Solidaridad</span><span>Equidad</span><span>Eficiencia</span><span>Ética</span><span>Transparencia</span>
+          </div>
+        </article>
+
+        <footer class="institutional-source">
+          <div>
+            <b>Fuente consultada</b>
+            <p>Portal del Estado Peruano · Seguro Social de Salud · Información institucional.</p>
+          </div>
+          <span class="institutional-source-label">Fuente: Seguro Social de Salud · Gob.pe</span>
+        </footer>
+      </section>
+
+    </div>
+  </main>
+</div>
+</ng-template>
